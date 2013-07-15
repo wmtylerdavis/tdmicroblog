@@ -7,6 +7,10 @@ group :development, :test do
 	# Use sqlite3 as the database for Active Record
 	gem 'sqlite3'
 	gem 'rspec-rails'
+	gem 'guard-rspec'
+	gem 'guard-spork'
+	gem 'childprocess'
+	gem 'spork'
 end
 
 group :assets do
@@ -38,7 +42,9 @@ group :doc do
 end
 
 group :test do
-	gem 'capybara'
+	gem 'capybara', '1.1.2'
+	gem 'rb-fsevent'
+	gem 'growl'
 end
 
 group :production do
