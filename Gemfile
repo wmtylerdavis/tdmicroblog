@@ -45,9 +45,10 @@ group :doc do
 end
 
 group :test do
-	gem 'capybara', '1.1.2'
+	gem 'capybara', '2.1.0'
 	gem 'rb-fsevent'
 	gem 'growl'
+	gem 'factory_girl_rails', '4.2.1'
 end
 
 group :production do
