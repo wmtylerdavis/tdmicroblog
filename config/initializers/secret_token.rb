@@ -9,4 +9,19 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Tdmicroblog::Application.config.secret_key_base = '5764d44801661a94b4f072343a89f4c16e7ff1f7c4c3fe4b6856e6476dbfe4d0a3f4c3237142aa8bc74c836b6b4fc36a70107bcec1bb52657aeea7e0629a97dc'
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+Tdmicroblog::Application.config.secret_key_base = secure_token
