@@ -6,6 +6,7 @@ gem 'bootstrap-sass'
 gem 'pg'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'newrelic_rpm'
+gem 'faker', '1.1.2'
 
 group :development, :test do 
 	# Use sqlite3 as the database for Active Record
