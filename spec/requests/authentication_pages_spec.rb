@@ -14,6 +14,8 @@ describe "Authentication" do
 
 			it { should have_title('Sign in') }
 			it { should have_error_message('Invalid') }
+			it { should_not have_link('Profile') }
+			it { should_not have_link('Settings') }
 
 			describe "after visiting another page" do
 				before { click_link "Home" }
@@ -47,15 +49,25 @@ describe "Authentication" do
 			describe "when attempting to visit a protected page" do
 				before do
 					visit edit_user_path(user)
-					fill_in "Email", with: user.email
-					fill_in "Password", with: user.password
-					click_button "Sign in"
+					sign_in user
 				end
 
 				describe "after signing in" do
 
 					it "should render the desired protected page" do
 						expect(page).to have_title('Edit user')
+					end
+
+					describe "when signing in again" do
+						before do
+							delete signout_path
+							visit signin_path
+							sign_in user
+						end
+
+						it "should render the default profile page" do
+							expect(page).to have_title(user.name)
+						end
 					end
 				end
 			end
@@ -105,6 +117,21 @@ describe "Authentication" do
 				before { delete user_path(user) }
 				specify { expect(response).to redirect_to(root_url) }
 			end
+		end
+
+		describe "for signed in user" do
+			let(:user) { FactoryGirl.create(:user) }
+			before { sign_in user, no_capybara: true }
+
+			describe "using a 'new' action" do
+                before { get new_user_path }
+                specify { response.should redirect_to(root_path) }
+            end
+
+            describe "using a 'create' action" do
+                before { post users_path }
+                specify { response.should redirect_to(root_path) }
+            end 
 		end
 	end
 end
