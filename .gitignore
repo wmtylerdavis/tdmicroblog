@@ -25,6 +25,7 @@ doc/
 .idea
 .secret
 /public/assets/
+/config/initializers/app_env_vars.rb
 
 *.rbc
 *.sassc
