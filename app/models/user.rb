@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
 
 	before_save { self.email = email.downcase }
 	before_create :create_remember_token
+	after_create :send_user_mailer
 
 	validates :name, presence: true, length: { maximum: 50 }
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+(?<!\.)\.[a-z]+\z/i
@@ -40,6 +41,10 @@ class User < ActiveRecord::Base
 
 	def unfollow!(other_user)
 		relationships.find_by(followed_id: other_user.id).destroy!
+	end
+
+	def send_user_mailer
+		Delayed::Job.enqueue(MailerJob.new(id), run_at: Time.now + 1.minute)
 	end
 
 	private

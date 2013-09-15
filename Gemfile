@@ -9,6 +9,7 @@ gem 'newrelic_rpm'
 gem 'faker', '1.1.2'
 gem 'will_paginate', '3.0.4'
 gem 'bootstrap-will_paginate', '0.0.9'
+gem 'delayed_job_active_record'
 
 group :development, :test do 
 	# Use sqlite3 as the database for Active Record
